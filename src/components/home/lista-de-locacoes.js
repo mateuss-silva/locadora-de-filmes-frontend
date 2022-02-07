@@ -156,8 +156,6 @@ function AppLocacoes() {
   };
 
   const salvarEditacaoDeLocacao = async () => {
-    console.log(editarLocacao);
-
     if (editarLocacao) {
       try {
         var resposta = await api.put(`/locacao/${editarLocacao.id}`, {
@@ -191,28 +189,26 @@ function AppLocacoes() {
   };
 
   const reiniciarEdicao = () => {
-    setEditando(false);
     setEditarLocacao(null);
+    setEditando(false);
   };
 
   const reiniciarCriacao = () => {
-    setCriando(false);
     setCriarLocacao(null);
+    setCriando(false);
   };
 
   const onEditarLocacao = (locacao) => {
-    setEditando(true);
-    console.log(locacao);
     setEditarLocacao({ ...locacao });
+    setEditando(true);
   };
 
   const onCriarLocacao = () => {
+    setCriarLocacao(null);
     setCriando(true);
-    setCriarLocacao({ clienteId: null, filmeId: null });
   };
 
   function onChangeCliente(clienteId) {
-    console.log(clienteId);
     if (criando) {
       setCriarLocacao({ ...criarLocacao, clienteId: clienteId });
     } else {
@@ -284,7 +280,13 @@ function AppLocacoes() {
           reiniciarEdicao();
         }}
         okText={criando ? "Criar" : "Salvar"}
-        onOk={criando ? salvarCriacaoDeLocacao : salvarEditacaoDeLocacao}
+        onOk={() => {
+          if (criando) {
+            salvarCriacaoDeLocacao();
+          } else {
+            salvarEditacaoDeLocacao();
+          }
+        }}
       >
         <Select
           showSearch

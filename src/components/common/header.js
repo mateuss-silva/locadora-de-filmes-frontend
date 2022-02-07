@@ -8,7 +8,7 @@ function AppHeader() {
   return (
     <Header>
       <div className="logo" />
-      <Menu theme="dark" mode="horizontal" selectedKeys={'filmes'}>
+      <Menu theme="dark" mode="horizontal" selectedKeys={''} >
         <Link to="/">
           <Menu.Item key={'filmes'}>Filmes</Menu.Item>
         </Link>
