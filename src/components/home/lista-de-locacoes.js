@@ -1,14 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {
-  Table,
-  Button,
-  Space,
-  Modal,
-  message,
-  Select,
-  DatePicker,
-  column,
-} from "antd";
+import { Table, Button, Space, Modal, message, Select, DatePicker } from "antd";
 import moment from "moment";
 import api from "../../api/api.js";
 

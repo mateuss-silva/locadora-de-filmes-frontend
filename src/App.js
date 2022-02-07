@@ -1,23 +1,20 @@
-import React from 'react';
-import './App.css';
-import 'antd/dist/antd.css';
-
-import AppHeader from './components/common/header';
-import AppHome from './views/home';
-
-import { Layout } from 'antd';
-const { Header, Content } = Layout;
+import React from "react";
+import "./App.css";
+import "antd/dist/antd.css";
+import Routes from "./routes";
+import { BrowserRouter } from "react-router-dom";
+import AppHeader from "./components/common/header";
+import { Layout } from "antd";
+const { Header } = Layout;
 
 function App() {
   return (
-    <Layout className="layoutPrincipal">
-    <Header>
-      <AppHeader/>
-    </Header>
-    <Content>
-      <AppHome/>
-    </Content>
-  </Layout>
+    <BrowserRouter>
+      <Header>
+        <AppHeader />
+      </Header>
+      <Routes />
+    </BrowserRouter>
   );
 }
 

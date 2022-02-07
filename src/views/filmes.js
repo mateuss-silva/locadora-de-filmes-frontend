@@ -1,16 +1,13 @@
 import React from "react";
 
-import AppClientes from "../components/home/clientes";
-import AppFilmes from "../components/home/filmes";
-import AppLocacoes from "../components/home/alocacoes";
+import AppFilmes from "../components/home/lista-de-filmes";
 import api from "../api/api.js";
 
 import { Layout, Row, Upload, Button, message } from "antd";
 import { UploadOutlined } from "@ant-design/icons";
 
 const { Content, Footer } = Layout;
-
-function AppHome() {
+const Filmes = () => {
   const props = {
     name: "planilha",
     maxCount: 1,
@@ -73,14 +70,12 @@ function AppHome() {
           </Button>
         </Row>
         <AppFilmes />
-        <AppClientes />
-        <AppLocacoes />
       </Content>
       <Footer style={{ textAlign: "center" }}>
         Locadora de Filmes ©2022 Created by Mateus
       </Footer>
     </Layout>
   );
-}
+};
 
-export default AppHome;
+export default Filmes;
