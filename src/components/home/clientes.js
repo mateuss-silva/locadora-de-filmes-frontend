@@ -141,8 +141,8 @@ function AppClientes() {
       try {
         var resposta = await api.post("/cliente", criarCliente);
         console.log(resposta);
-        setCriarCliente({ ...criarCliente, id: resposta.data.id });
-        setClientes([...clientes, criarCliente]);
+        setClientes([...clientes, { ...criarCliente, id: resposta.data.id }]);
+        setTotalDeClientes(totalDeClientes + 1);
         message.success(resposta.data.mensagem);
       } catch ({ response }) {
         message.error(response.data.mensagem);
@@ -173,7 +173,6 @@ function AppClientes() {
       <Table
         pagination={{
           defaultPageSize: tamanhoDaPagina,
-
           total: totalDeClientes,
           onChange: (pagina, _) => {
             setPaginaAtual(pagina - 1);
@@ -209,6 +208,7 @@ function AppClientes() {
         onOk={criando ? salvarCriacaoDeCliente : salvarEditacaoDeCliente}
       >
         <Input
+          style={{ marginBottom: 16 }}
           size="large"
           placeholder="Nome do cliente"
           value={criando ? criarCliente?.nome : editarCliente?.nome}
@@ -222,6 +222,7 @@ function AppClientes() {
           }}
         ></Input>
         <Input
+          style={{ marginBottom: 16 }}
           size="large"
           placeholder="CPF"
           maxLength={11}
@@ -236,6 +237,7 @@ function AppClientes() {
           }}
         ></Input>
         <DatePicker
+          style={{ marginBottom: 16 }}
           size="large"
           format={"DD/MM/yyyy"}
           placeholder="Data de nascimento"
