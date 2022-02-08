@@ -12,7 +12,7 @@ function FilmesButoes() {
     name: "planilha",
     maxCount: 1,
     accept: ".csv",
-    action: "https://localhost:44384/api/Filme",
+    action: "https://localhost:5050/api/Filme",
     headers: {
       authorization: "authorization-text",
     },
