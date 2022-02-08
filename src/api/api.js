@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const api = axios.create({
-  baseURL: "https://db-locadora:3306/api/",
+  baseURL: "https://localhost:44384/api/",
   useDefaultAuth: true,
   prettyJson: true,
   enableCors: true,
