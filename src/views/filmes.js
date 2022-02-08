@@ -5,17 +5,16 @@ import FilmesButoes from "../components/common/filmes-botoes";
 
 import { Layout } from "antd";
 
-const { Content, Footer } = Layout;
+const { Content } = Layout;
 const Filmes = () => {
   return (
-    <Layout className="layout">
-      <Content style={{ padding: "0 50px" }}>
-        <AppFilmes />
-        <FilmesButoes />
+    <Layout style={{ minHeight: "80vh" }}>
+      <Content>
+        <div style={{ margin: "0 50px" }}>
+          <AppFilmes />
+          <FilmesButoes />
+        </div>
       </Content>
-      <Footer style={{ textAlign: "center" }}>
-        Locadora de Filmes ©2022 Created by Mateus
-      </Footer>
     </Layout>
   );
 };

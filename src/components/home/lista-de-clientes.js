@@ -88,6 +88,7 @@ function AppClientes() {
         try {
           await api.delete(`/cliente/${id}`);
           setClientes(clientes.filter((cliente) => cliente.id !== id));
+          message.success("Cliente excluído com sucesso!");
         } catch ({ response }) {
           message.error(response.data.mensagem);
         }
