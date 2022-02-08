@@ -22,6 +22,9 @@ function AppLocacoes() {
   const [editarLocacao, setEditarLocacao] = useState(null);
   const [criarLocacao, setCriarLocacao] = useState(null);
 
+  const [filmeSelecionado, setFilmeSelecionado] = useState(null);
+  const [clienteSelecionado, setClienteSelecionado] = useState(null);
+
   const colunas = [
     {
       title: "ID",
@@ -200,11 +203,15 @@ function AppLocacoes() {
 
   const onEditarLocacao = (locacao) => {
     setEditarLocacao({ ...locacao });
+    setFilmeSelecionado(locacao.nomeDoFilme);
+    setClienteSelecionado(locacao.nomeDoCliente);
     setEditando(true);
   };
 
   const onCriarLocacao = () => {
     setCriarLocacao(null);
+    setFilmeSelecionado(null);
+    setClienteSelecionado(null);
     setCriando(true);
   };
 
@@ -222,14 +229,6 @@ function AppLocacoes() {
     } else {
       setEditarLocacao({ ...editarLocacao, filmeId: filmeId });
     }
-  }
-
-  function onSearchCliente(busca) {
-    obterClientes(busca);
-  }
-
-  function onSearchFilme(busca) {
-    obterFilmes(busca);
   }
 
   useEffect(() => {
@@ -276,8 +275,14 @@ function AppLocacoes() {
         title={criando ? "Nova Locação" : "Editar Locação"}
         visible={editando || criando}
         onCancel={() => {
-          reiniciarCriacao();
-          reiniciarEdicao();
+          setFilmeSelecionado(null);
+          setClienteSelecionado(null);
+
+          if (criando) {
+            reiniciarCriacao();
+          } else {
+            reiniciarEdicao();
+          }
         }}
         okText={criando ? "Criar" : "Salvar"}
         onOk={() => {
@@ -291,20 +296,22 @@ function AppLocacoes() {
         <Select
           showSearch
           style={{ marginBottom: 16, width: "100%" }}
-          value={
-            criando ? criarLocacao?.nomeDoCliente : editarLocacao?.nomeDoCliente
-          }
+          value={clienteSelecionado}
+          onSelect={setClienteSelecionado}
           size="large"
           placeholder="Selecione o cliente"
           optionFilterProp="children"
           onChange={onChangeCliente}
-          onSearch={onSearchCliente}
+          onSearch={obterClientes}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
         >
           {clientes.map((cliente) => (
-            <Option key={cliente.id}>{cliente.nome}</Option>
+            <Option key={cliente.id}>
+              <h5>Nome: {cliente.nome}</h5>
+              <h5>CPF: {cliente.cpf}</h5>
+            </Option>
           ))}
         </Select>
 
@@ -314,12 +321,11 @@ function AppLocacoes() {
           size="large"
           align="center"
           placeholder="Selecione o filme"
-          value={
-            criando ? criarLocacao?.nomeDoFilme : editarLocacao?.nomeDoFilme
-          }
+          value={filmeSelecionado}
+          onSelect={setFilmeSelecionado}
           optionFilterProp="children"
           onChange={onChangeFilme}
-          onSearch={onSearchFilme}
+          onSearch={obterFilmes}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }
@@ -337,21 +343,15 @@ function AppLocacoes() {
             format={"DD/MM/yyyy"}
             placeholder="Data de Devolução"
             value={
-              criando
-                ? criarLocacao?.dataDeDevolucao
-                : editarLocacao?.dataDeDevolucao == null
+              editarLocacao?.dataDeDevolucao == null
                 ? null
-                : moment(editarLocacao?.dataDeDevolucao)
+                : moment(editarLocacao.dataDeDevolucao)
             }
             disabledDate={(date) => {
               return date && date.valueOf() > Date.now();
             }}
             onChange={(data) => {
-              if (criando) {
-                setCriarLocacao({ ...criarLocacao, dataDeDevolucao: data });
-              } else {
-                setEditarLocacao({ ...editarLocacao, dataDeDevolucao: data });
-              }
+              setEditarLocacao({ ...editarLocacao, dataDeDevolucao: data });
             }}
             style={{ width: "100%" }}
           />

@@ -141,7 +141,6 @@ function AppClientes() {
     if (criarCliente) {
       try {
         var resposta = await api.post("/cliente", criarCliente);
-        console.log(resposta);
         setClientes([...clientes, { ...criarCliente, id: resposta.data.id }]);
         setTotalDeClientes(totalDeClientes + 1);
         message.success(resposta.data.mensagem);
