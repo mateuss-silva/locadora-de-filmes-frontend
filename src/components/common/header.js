@@ -13,7 +13,7 @@ function AppHeader() {
       <Menu
         theme="dark"
         mode="horizontal"
-        defaultSelectedKeys={["/"]}
+        defaultSelectedKeys={['/']}
         selectedKeys={[caminhoAtual]}
       >
         <Menu.Item key="/" onClick={() => setCaminhoAtual("/")}>

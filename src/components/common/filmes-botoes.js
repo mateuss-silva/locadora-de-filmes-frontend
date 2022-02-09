@@ -21,7 +21,7 @@ function FilmesButoes() {
       if (info.file.status !== "uploading") {
       }
       if (info.file.status === "done") {
-        message.success(`${info.file.name} Arquivo enviado com sucesso.`);
+        message.success(`${info.file.name}, enviado com sucesso. Atualize a página para visualizar as alterações.`, 5);
       } else if (info.file.status === "error") {
         message.error(info.file.response.mensagem, 3);
       }

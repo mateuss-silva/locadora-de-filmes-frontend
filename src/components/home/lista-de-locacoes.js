@@ -172,7 +172,6 @@ function AppLocacoes() {
         message.error(response.data.mensagem);
       }
     }
-    reiniciarEdicao();
   };
 
   const salvarCriacaoDeLocacao = async () => {
@@ -188,17 +187,6 @@ function AppLocacoes() {
         message.error(response.data.mensagem);
       }
     }
-    reiniciarCriacao();
-  };
-
-  const reiniciarEdicao = () => {
-    setEditarLocacao(null);
-    setEditando(false);
-  };
-
-  const reiniciarCriacao = () => {
-    setCriarLocacao(null);
-    setCriando(false);
   };
 
   const onEditarLocacao = (locacao) => {
@@ -240,6 +228,14 @@ function AppLocacoes() {
     obterFilmes();
   }, []);
 
+  const locacaoValida = () => {
+    if (criando) {
+      return criarLocacao?.clienteId && criarLocacao?.filmeId;
+    } else {
+      return editarLocacao?.clienteId && editarLocacao?.filmeId;
+    }
+  };
+
   return (
     <div id="locacoes">
       <h1 style={{ fontSize: 32, textAlign: "center", padding: 16 }}>
@@ -277,40 +273,49 @@ function AppLocacoes() {
         onCancel={() => {
           setFilmeSelecionado(null);
           setClienteSelecionado(null);
-
-          if (criando) {
-            reiniciarCriacao();
-          } else {
-            reiniciarEdicao();
-          }
+          setCriando(false);
+          setEditando(false);
         }}
         okText={criando ? "Criar" : "Salvar"}
-        onOk={() => {
-          if (criando) {
-            salvarCriacaoDeLocacao();
+        onOk={async () => {
+          var valida = locacaoValida();
+
+          if (valida) {
+            if (criando) {
+              await salvarCriacaoDeLocacao();
+            } else {
+              await salvarEditacaoDeLocacao();
+            }
+
+            setFilmeSelecionado(null);
+            setClienteSelecionado(null);
+            setCriando(false);
+            setEditando(false);
           } else {
-            salvarEditacaoDeLocacao();
+            message.error("Preencha todos os campos");
           }
         }}
       >
         <Select
           showSearch
           style={{ marginBottom: 16, width: "100%" }}
+          size="large"
           value={clienteSelecionado}
           onSelect={setClienteSelecionado}
-          size="large"
           placeholder="Selecione o cliente"
+          autoClearSearchValue={true}
           optionFilterProp="children"
-          onChange={onChangeCliente}
-          onSearch={obterClientes}
-          filterOption={(input, option) =>
-            option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-          }
+          onChange={(c) => onChangeCliente(c)}
+          onSearch={(v) => obterClientes(v)}
+          filterOption={(input, option) => {
+            return (
+              option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+            );
+          }}
         >
           {clientes.map((cliente) => (
             <Option key={cliente.id}>
-              <h5>Nome: {cliente.nome}</h5>
-              <h5>CPF: {cliente.cpf}</h5>
+              {cliente.nome + "  |  CPF: " + cliente.cpf}
             </Option>
           ))}
         </Select>
@@ -323,9 +328,10 @@ function AppLocacoes() {
           placeholder="Selecione o filme"
           value={filmeSelecionado}
           onSelect={setFilmeSelecionado}
+          autoClearSearchValue={true}
           optionFilterProp="children"
           onChange={onChangeFilme}
-          onSearch={obterFilmes}
+          onSearch={(v) => obterFilmes(v)}
           filterOption={(input, option) =>
             option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
           }

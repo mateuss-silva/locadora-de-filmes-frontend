@@ -165,6 +165,31 @@ function AppClientes() {
     getClientes();
   }, [paginaAtual]);
 
+  const clienteValido = (cliente) => {
+    if (editando && !cliente?.id) return false;
+
+    return (
+      cliente?.nome &&
+      cliente?.dataDeNascimento &&
+      cliente?.cpf &&
+      cliente?.nome.length > 0 &&
+      cliente?.cpf.length === 11
+    );
+  };
+
+  const submeter = () => {
+    var valido = clienteValido(criarCliente) || clienteValido(editarCliente);
+    if (valido) {
+      if (criando) {
+        salvarCriacaoDeCliente();
+      } else {
+        salvarEditacaoDeCliente();
+      }
+    } else {
+      message.error("Preencha todos os campos corretamente!");
+    }
+  };
+
   return (
     <div id="clientes">
       <h1 style={{ fontSize: 32, textAlign: "center", padding: 16 }}>
@@ -205,7 +230,7 @@ function AppClientes() {
           }
         }}
         okText={criando ? "Criar" : "Salvar"}
-        onOk={criando ? salvarCriacaoDeCliente : salvarEditacaoDeCliente}
+        onOk={submeter}
       >
         <Input
           style={{ marginBottom: 16 }}
@@ -244,6 +269,8 @@ function AppClientes() {
           value={
             criando
               ? criarCliente?.dataDeNascimento
+              : editarCliente?.dataDeNascimento == null
+              ? editarCliente?.dataDeNascimento
               : moment(editarCliente?.dataDeNascimento)
           }
           disabledDate={(date) => {
@@ -253,7 +280,10 @@ function AppClientes() {
             if (criando) {
               setCriarCliente({ ...criarCliente, dataDeNascimento: data });
             } else {
-              setEditarCliente({ ...editarCliente, dataDeNascimento: data });
+              setEditarCliente({
+                ...editarCliente,
+                dataDeNascimento: data,
+              });
             }
           }}
           style={{ width: "100%" }}
