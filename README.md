@@ -1,6 +1,6 @@
 # Locadora de Filmes
 
-- [**DockerHub**](https://hub.docker.com/r/mateussgt/locadora-de-filmes)
+- Imagens disponíveis no [**DockerHub**](https://hub.docker.com/r/mateussgt/locadora-de-filmes)
 
 - [**Backend**](https://github.com/mateuss-silva/locadora-de-filmes-backend)
 
