@@ -8,9 +8,10 @@
  - 3000
 ## Host
  - localhost
+ - Link:  [**Locadora de Filmes**](http://localhost:3000/)
 
 ## Compose
-
+- **Atençao**, após executar o comando ```docker compose up```, pode acontecer da API não iniciar de imediato por ter uma dependência do **banco de dados**. Está explícito que a aplicação deve esperar o banco inicializar, ```depends_on: - "database"```. Entretando, pode aconter do banco ser inicializado antes, mas a conexão da API não acontecer e será preciso iniciar ela novamente.
 ```
 version: "3.9"
 
