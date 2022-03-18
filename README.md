@@ -1,5 +1,5 @@
 # Locadora de Filmes
-
+**Observação importante: esse crud foi feito de uma forma meio que rápida, então não está estruturado de melhor maneira e nem como gostaria.**
 - Imagens disponíveis no [**DockerHub**](https://hub.docker.com/r/mateussgt/locadora-de-filmes)
 
 - [**Backend**](https://github.com/mateuss-silva/locadora-de-filmes-backend)
